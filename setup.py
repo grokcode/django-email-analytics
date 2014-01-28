@@ -4,7 +4,7 @@ except ImportError:
     from distutils.core import setup
 
 config = {
-    'name': 'django-email-analytics'
+    'name': 'django-email-analytics',
     'version': '0.1',
     'author': 'Jess Johnson',
     'author_email': 'jess@grokcode.com',
