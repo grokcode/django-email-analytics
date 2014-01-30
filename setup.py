@@ -14,7 +14,7 @@ config = {
     'license': 'LICENSE.txt',
     'description': 'Adds Google Analytics tracking to emails sent with Django.',
     'long_description': open('README.txt').read(),
-    'install_requires': [],
+    'install_requires': ['beautifulsoup4'],
 }
 
 setup(**config)

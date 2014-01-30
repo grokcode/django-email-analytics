@@ -1,12 +1,17 @@
 from django.conf import settings
 from django.core.mail import get_connection
 from django.core.mail.backends.base import BaseEmailBackend
+from emailanalytics.text_processing import replace_urls_html, replace_urls_text
 
 
 
-CHAINED_BACKEND = getattr(settings, 
+chained_backend = getattr(settings, 
                           'EMAIL_ANALYTICS_BACKEND', 
                           'django.core.mail.backends.smtp.EmailBackend')
+
+replace_text = getattr(settings,
+                       'EMAIL_ANALYTICS_REPLACE_TXT',
+                       False)
 
 
 class AnalyticsEmailBackend(BaseEmailBackend):
@@ -17,8 +22,29 @@ class AnalyticsEmailBackend(BaseEmailBackend):
 
     def send_messages(self, email_messages, **kwargs):
         for msg in email_messages:
-            pass # XXX do the transform       
-        
-        conn = get_connection(backend=CHAINED_BACKEND, **self.init_kwargs)
+            params = {'utm_source': msg.subject,
+                      'utm_medium': 'email',
+                      'utm_content': 'XXX',   # XXX use link text or unique numbers
+                      'utm_campaign': 'drip', # XXX Drip id?
+                      }
+
+            if replace_text and msg.content_subtype == 'text':
+                msg.body = replace_urls_text(msg.body, params)
+            elif msg.content_subtype == 'html':
+                msg.body = replace_urls_html(msg.body, params)
+
+            if getattr(msg, 'alternatives'):
+                alts = []
+                for content, mimetype in msg.alternatives:
+                    print '*** %s' % mimetype
+                    if content is not None and mimetype == 'text/html':
+                        content = replace_urls_html(content, params)
+                alts.append((content, mimetype))
+                msg.alternatives = alts
+
+        conn = get_connection(backend=chained_backend, **self.init_kwargs)
         return conn.send_messages(email_messages)
             
+
+
+    
