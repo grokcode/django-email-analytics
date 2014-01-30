@@ -13,7 +13,7 @@ config = {
     'url': 'http://pypi.python.org/pypi/django-email-analytics/',
     'license': 'LICENSE.txt',
     'description': 'Adds Google Analytics tracking to emails sent with Django.',
-    'long_description': open('README.txt').read(),
+    'long_description': open('README').read(),
     'install_requires': ['beautifulsoup4'],
 }
 
