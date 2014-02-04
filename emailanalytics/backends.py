@@ -24,8 +24,7 @@ class AnalyticsEmailBackend(BaseEmailBackend):
         for msg in email_messages:
             params = {'utm_source': msg.subject,
                       'utm_medium': 'email',
-                      'utm_content': 'XXX',   # XXX use link text or unique numbers
-                      'utm_campaign': 'drip', # XXX Drip id?
+                      'utm_campaign': 'webapp', 
                       }
 
             if replace_text and msg.content_subtype == 'text':
@@ -36,7 +35,6 @@ class AnalyticsEmailBackend(BaseEmailBackend):
             if getattr(msg, 'alternatives'):
                 alts = []
                 for content, mimetype in msg.alternatives:
-                    print '*** %s' % mimetype
                     if content is not None and mimetype == 'text/html':
                         content = replace_urls_html(content, params)
                 alts.append((content, mimetype))
