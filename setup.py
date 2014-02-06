@@ -10,10 +10,10 @@ config = {
     'author_email': 'jess@grokcode.com',
     'packages': ['emailanalytics'],
     'scripts': [],
-    'url': 'http://pypi.python.org/pypi/django-email-analytics/',
+    'url': 'https://github.com/grokcode/django-email-analytics',
     'license': 'LICENSE.txt',
     'description': 'Adds Google Analytics tracking to emails sent with Django.',
-    'long_description': open('README').read(),
+    'long_description': open('docs/README.rst').read(),
     'install_requires': ['beautifulsoup4'],
 }
 
