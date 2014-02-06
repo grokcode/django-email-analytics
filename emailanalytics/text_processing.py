@@ -6,27 +6,7 @@ import re
 
 
 
-# PAT_URL = re.compile(  r'''
-#                      (?x)( # verbose identify URLs within text
-#               (http|https) # make sure we find a resource type
-#                        :// # ...needs to be followed by colon-slash-slash
-#             (\w+[:.]?){2,} # at least two domain groups, e.g. (gnosis.)(cx)
-#                       (/?| # could be just the domain name (maybe w/ slash)
-#                 [^ \n\r"]+ # or stuff then space, newline, tab, quote
-#                     [\w/]) # resource name ends in alphanumeric or slash
-#          (?=[\s\.,>)'"\]]) # assert: followed by white or clause ending
-#                          ) # end of match group
-#                            ''', re.VERBOSE)
-
 PAT_URL = re.compile(r'https?://[^\s<>"]+|www\.[^\s<>"]+')
-
-# PAT_URL = re.compile(r'''
-#                      (http[s]?  # starts with http or https
-#                           ://  # then a colon-slash-slah
-#   (?:[a-zA-Z]|[0-9]|[$-_@.&+]  # then this other stuff i uh found on the internet 
-#                | [!*\(\),] |   # and am not sure exactly how it works
-# (?:%[0-9a-fA-F][0-9a-fA-F]))+)
-#                                 ''', re.VERBOSE)
 
 PAT_HREF = re.compile( r'''
                     (?x)( # identify http or https links within href
@@ -51,7 +31,6 @@ def replace_urls_text(text, params):
     """
     Appends analytics tracking to urls found within the plain text.
     """
-    import pdb; pdb.set_trace()
     for url in re.findall(PAT_URL, text):
         text = text.replace(url, append_tracking(url, params))
     return text
