@@ -21,7 +21,7 @@ def replace_urls_html(html, params):
     """ 
     Appends analytics tracking to urls found within the src attribute of <a> tags.
     """
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html)
     for a in soup.find_all('a', href=PAT_HREF):
         a['href'] = append_tracking(a['href'], params)
     return str(soup)
