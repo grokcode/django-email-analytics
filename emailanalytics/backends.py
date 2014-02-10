@@ -32,7 +32,7 @@ class AnalyticsEmailBackend(BaseEmailBackend):
             elif msg.content_subtype == 'html':
                 msg.body = replace_urls_html(msg.body, params)
 
-            if getattr(msg, 'alternatives'):
+            if getattr(msg, 'alternatives', False):
                 alts = []
                 for content, mimetype in msg.alternatives:
                     if content is not None and mimetype == 'text/html':
