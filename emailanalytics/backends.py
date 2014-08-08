@@ -1,12 +1,11 @@
 from django.conf import settings
 from django.core.mail import get_connection
 from django.core.mail.backends.base import BaseEmailBackend
-from emailanalytics.text_processing import replace_urls_html, replace_urls_text
+from emailanalytics.text_processing import replace_urls_html, replace_urls_tex
 
 
-
-chained_backend = getattr(settings, 
-                          'EMAIL_ANALYTICS_BACKEND', 
+chained_backend = getattr(settings,
+                          'EMAIL_ANALYTICS_BACKEND',
                           'django.core.mail.backends.smtp.EmailBackend')
 
 replace_text = getattr(settings,
@@ -24,7 +23,7 @@ class AnalyticsEmailBackend(BaseEmailBackend):
         for msg in email_messages:
             params = {'utm_source': msg.subject,
                       'utm_medium': 'email',
-                      'utm_campaign': 'webapp', 
+                      'utm_campaign': 'webapp',
                       }
 
             if replace_text and msg.content_subtype == 'text':
@@ -42,7 +41,3 @@ class AnalyticsEmailBackend(BaseEmailBackend):
 
         conn = get_connection(backend=chained_backend, **self.init_kwargs)
         return conn.send_messages(email_messages)
-            
-
-
-    
