@@ -1,7 +1,13 @@
-from urllib import urlencode
-from urlparse import parse_qsl, urlsplit, urlunspli
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
+try:
+    from urlparse import parse_qsl, urlsplit, urlunsplit
+except ImportError:
+    from urllib.parse import parse_qsl, urlsplit, urlunsplit
 from bs4 import BeautifulSoup
-from collections import OrderedDic
+from collections import OrderedDict
 import re
 
 
@@ -44,7 +50,11 @@ def append_tracking(url, params):
 
     scheme, netloc, path, query_string, fragment = urlsplit(url)
     query_params = OrderedDict(parse_qsl(query_string))
-    for key, val in params.iteritems():
+    try:
+        items = params.iteritems()
+    except AttributeError:
+        items = params.items()
+    for key, val in items:
         if not query_params.get(key):
             query_params[key] = val
     new_query_string = urlencode(query_params, doseq=True)
