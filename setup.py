@@ -5,7 +5,7 @@ except ImportError:
 
 config = {
     'name': 'django-email-analytics',
-    'version': '0.3',
+    'version': '0.4',
     'author': 'Jess Johnson',
     'author_email': 'jess@grokcode.com',
     'packages': ['emailanalytics'],
