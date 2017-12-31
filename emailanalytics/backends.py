@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.mail import get_connection
 from django.core.mail.backends.base import BaseEmailBackend
-from emailanalytics.text_processing import replace_urls_html, replace_urls_tex
+from emailanalytics.text_processing import replace_urls_html, replace_urls_text
 
 
 chained_backend = getattr(settings,
